@@ -120,7 +120,8 @@ jobs:
           LOCATION_NAME=${{ env.LOCATION_NAME }} \
           RESOURCE_GROUP_NAME=rg-${{ env.AZURE_WEBAPP_NAME }} \
           WEB_APP_NAME=${{ env.AZURE_WEBAPP_NAME }} \
-          IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+          bash -s
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
