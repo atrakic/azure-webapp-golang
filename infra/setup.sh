@@ -24,7 +24,6 @@ PASSWORD=${PASSWORD:-}
 declare -a ARGS=()
 if [[ -n "${USERNAME}" && -n "${PASSWORD}" ]]; then
   ARGS=(-s "${USERNAME}" -w "${PASSWORD}")
-  echo az webapp create --name "$WEB_APP_NAME" --resource-group "$RESOURCE_GROUP_NAME" --plan "$APP_SERVICE_PLAN_NAME" -i "$IMAGE_NAME" "${ARGS[@]}"
 fi
 
 # https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest
