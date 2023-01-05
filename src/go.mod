@@ -1,4 +1,4 @@
-module github.com/docker/awesome-compose/nginx-golang/backend
+module github.com/atrakic/azure-webapp-deploy/src
 
 go 1.18
 
