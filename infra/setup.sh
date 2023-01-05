@@ -32,5 +32,13 @@ az group create --location "$LOCATION_NAME" --name "$RESOURCE_GROUP_NAME"
 # https://learn.microsoft.com/en-us/cli/azure/appservice?view=azure-cli-latest
 az appservice plan create --name "$APP_SERVICE_PLAN_NAME" --resource-group "$RESOURCE_GROUP_NAME" --sku "$SKU_NAME" --is-linux
 
+#prState=''
+#while [[ $prState != 'Succeeded' ]];
+#do
+#    prState=$(az appservice plan show "$APP_SERVICE_PLAN_NAME" --resource-group "$RESOURCE_GROUP_NAME" --query 'provisioningState' -o tsv)
+#    echo "appservice plan "$APP_SERVICE_PLAN_NAME" provisioningState="$prState
+#    sleep 5
+#done
+
 # https://learn.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest
 az webapp create --name "$WEB_APP_NAME" --resource-group "$RESOURCE_GROUP_NAME" --plan "$APP_SERVICE_PLAN_NAME" -i "$IMAGE_NAME" "${ARGS[@]}"
