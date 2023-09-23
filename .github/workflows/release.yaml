@@ -29,7 +29,7 @@ permissions:
 env:
   AZURE_WEBAPP_NAME: '${{ github.repository_owner }}-azure-app' # The name of your Azure Web App. Should be unique.
   REGISTRY: ghcr.io
-  IMAGE_NAME: 'hello-chi' # ${{ github.repository }}
+  IMAGE_NAME: '${{ github.repository_owner }}/hello-chi' # ${{ github.repository }}
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
