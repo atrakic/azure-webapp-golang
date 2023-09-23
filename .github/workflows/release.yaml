@@ -29,7 +29,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: 'hello-chi' # ${{ github.repository }}
   IMAGE_TAG: ${{ github.sha }}
-  DEPLOYMENT_SCRIPT: https://raw.githubusercontent.com/${{ github.repository }}/main/infra/setup.sh
 
 jobs:
   # https://docs.github.com/en/actions/publishing-packages/publishing-docker-images#publishing-images-to-github-packages
@@ -104,6 +103,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: needs.checksecret.outputs.is_AZURE_CREDENTIALS_set == 'true' && github.event_name != 'pull_request'
+    env:
+      DEPLOYMENT_SCRIPT: "https://raw.githubusercontent.com/${{ github.repository }}/main/infra/setup.sh"
 
     environment:
       name: 'Development'
