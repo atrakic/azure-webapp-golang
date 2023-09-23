@@ -8,7 +8,7 @@
 # 4) Comment line 84 to allow deployment job to run
 # 5) Commit and push
 
-name: azure-webapps-deploy
+name: Azure Webapps Deploy
 
 on:
   workflow_dispatch:
@@ -16,8 +16,9 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/azure-deploy.yml'
       - 'src/**'
-      - '!src/docs/**'
+      - '!docs/**'
     tags:
       - 'v*.*.*'        
 
