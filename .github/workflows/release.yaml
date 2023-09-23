@@ -109,7 +109,7 @@ jobs:
       - name: 'Use Azure CLI script to provision infrastructure for Web App Linux container'
         run: |
           az account show
-          curl -sSL ${{ DEPLOYMENT_SCRIPT }} | \
+          curl -sSL ${{ env.DEPLOYMENT_SCRIPT }} | \
           LOCATION_NAME=westeurope \
           SKU_NAME=S1 \
           WEB_APP_NAME=app-$IMAGE_NAME \
