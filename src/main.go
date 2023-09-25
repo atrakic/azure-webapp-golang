@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 
@@ -12,22 +13,29 @@ import (
 
 var port string
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(
-		w, `
-Hello from azure-webapp-deploy!
-`,
-	)
-}
-
 func main() {
 	port = os.Getenv("PORT")
 	if port == "" {
 		port = "5000"
 	}
+
 	r := chi.NewRouter()
+
+	r.Use(middleware.RequestID)
+	r.Use(middleware.Heartbeat("/healthz"))
 	r.Use(middleware.Logger)
-	r.Get("/", handler)
+
+	r.Get("/ip", helloHandler)
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello from azure-webapp-deploy!"))
+	})
+
 	fmt.Println("Go backend started at port: ", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
+}
+
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	host, _ := os.Hostname()
+	ip, _ := net.LookupIP(host)
+	fmt.Fprintf(w, "ip: %s - host: %s", ip, host)
 }
