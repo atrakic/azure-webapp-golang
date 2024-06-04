@@ -1,5 +1,9 @@
+APP ?= app
 all:
-	DOCKER_BUILDKIT=1 docker-compose up --build --force-recreate --remove-orphans -d
+	docker-compose up --build --force-recreate --remove-orphans -d
+
+healthcheck:
+	docker inspect $(APP) --format "{{ (index (.State.Health.Log) 0).Output }}"
 
 test: all
 	docker-compose run test-client

@@ -1,20 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-var port string
-
 func main() {
-	port = os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5000"
 	}
@@ -25,17 +25,49 @@ func main() {
 	r.Use(middleware.Heartbeat("/healthz"))
 	r.Use(middleware.Logger)
 
-	r.Get("/ip", helloHandler)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello from azure-webapp-deploy!"))
+		w.Header().Set("Content-Type", "application/json")
+		response := struct {
+			Message string `json:"message"`
+		}{
+			Message: "Hello from azure-webapp!",
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Write(jsonResponse)
 	})
 
-	fmt.Println("Go backend started at port: ", port)
+	r.Get("/health", healthHandler)
+
+	fmt.Println("Go backend started at port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
+func healthHandler(w http.ResponseWriter, r *http.Request) {
 	host, _ := os.Hostname()
 	ip, _ := net.LookupIP(host)
-	fmt.Fprintf(w, "ip: %s - host: %s", ip, host)
+
+	response := struct {
+		IP   string `json:"ip"`
+		Host string `json:"host"`
+		Date string `json:"date"`
+		ClientIp string `json:"clientIp"`
+	}{
+		IP:   ip[0].String(),
+		Host: host,
+		Date: time.Now().UTC().Format(time.RFC3339),
+		ClientIp: r.RemoteAddr,
+	}
+
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResponse)
 }

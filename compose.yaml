@@ -1,6 +1,15 @@
 services:
   app:
-    build: src
+    build: ./src
     container_name: app
+    environment:
+      - PORT=${PORT:-3000}
     ports:
-      - 5000:5000
+      - ${PORT:-3000}:${PORT:-3000}
+    healthcheck:
+      # Note that distroless images by default do not contain a shell, hence no variable substitution is possible
+      test: ["CMD", "/usr/bin/wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
