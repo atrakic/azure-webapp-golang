@@ -7,7 +7,7 @@ set -o pipefail
 #
 # Usage:
 # \curl -sSL https://raw.githubusercontent.com/atrakic/azure-webapp-deploy/main/infra/setup.sh | \
-#  WEB_APP_NAME=app-$RANDOM IMAGE_NAME=ghcr.io/atrakic/hello-chi:latest bash -s
+#  WEB_APP_NAME=app-$RANDOM IMAGE_NAME=ghcr.io/atrakic/azure-go-app:latest bash -s
 
 WEB_APP_NAME=${WEB_APP_NAME:?"You need to configure the WEB_APP_NAME environment variable; eg. app-$RANDOM"}
 
@@ -40,4 +40,5 @@ main() {
   fi
   az webapp create --name "$WEB_APP_NAME" --resource-group "$RESOURCE_GROUP_NAME" --plan "$APP_SERVICE_PLAN_NAME" -i "$IMAGE_NAME" "${ARGS[@]}"
 }
+
 main "$@"
