@@ -30,7 +30,7 @@ func main() {
 		response := struct {
 			Message string `json:"message"`
 		}{
-			Message: "Hello from azure-webapp!",
+			Message: "Hello from azure-webapp-golang!",
 		}
 		jsonResponse, err := json.Marshal(response)
 		if err != nil {
@@ -40,13 +40,13 @@ func main() {
 		w.Write(jsonResponse)
 	})
 
-	r.Get("/health", healthHandler)
+	r.Get("/sys", sysHandler)
 
 	fmt.Println("Go backend started at port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
-func healthHandler(w http.ResponseWriter, r *http.Request) {
+func sysHandler(w http.ResponseWriter, r *http.Request) {
 	host, _ := os.Hostname()
 	ip, _ := net.LookupIP(host)
 

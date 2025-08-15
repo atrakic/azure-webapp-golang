@@ -27,7 +27,7 @@ permissions:
   packages: write
 
 env:
-  AZURE_WEBAPP_NAME: '${{ github.repository_owner }}-azure-app' # The name of your Azure Web App. Should be unique.
+  AZURE_WEBAPP_NAME: '${{ github.repository_owner }}-azure-go-app' # The name of your Azure Web App. Should be unique.
   REGISTRY: ghcr.io
   IMAGE_NAME: '${{ github.repository_owner }}/azure-go-app' # ${{ github.repository }}
   IMAGE_TAG: ${{ github.sha }}
@@ -76,7 +76,7 @@ jobs:
       - name: Build and push container image to registry
         uses: docker/build-push-action@v6
         with:
-          context: ./src
+          context: ./
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
