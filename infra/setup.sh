@@ -7,15 +7,14 @@ set -o pipefail
 #
 # Usage:
 # Include in your builds via
-# \curl -sSL https://raw.githubusercontent.com/atrakic/azure-webapp-golang/main/infra/setup.sh | \
+# \curl -sSL https://raw.githubusercontent.com/atrakic/azure-webapp-golang/refs/heads/main/infra/setup.sh | \
 #  WEB_APP_NAME=app-$RANDOM IMAGE_NAME=ghcr.io/atrakic/azure-go-app:latest bash -s
 
 WEB_APP_NAME=${WEB_APP_NAME:?'You need to configure the WEB_APP_NAME environment variable; eg. app-testaaaay'}
 IMAGE_NAME=${IMAGE_NAME:?'You need to configure IMAGE_NAME environment variable; eg. docker.io/nginx:latest'}
 
 # Optionals:
-
-LOCATION_NAME=${LOCATION_NAME:-westeurope}
+LOCATION_NAME=${LOCATION_NAME:-northeurope}
 APP_SERVICE_PLAN_NAME=${APP_SERVICE_PLAN_NAME:-MyPlan}
 RESOURCE_GROUP_NAME=${RESOURCE_GROUP_NAME:-rg-$RANDOM}
 SKU_NAME=${SKU_NAME:-S1}
