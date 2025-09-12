@@ -18,7 +18,7 @@ COPY --from=busybox:1.36.0-musl /bin/wget /usr/bin/wget
 
 ENV PORT=5000
 
-HEALTHCHECK --interval=5m --timeout=3s \
+HEALTHCHECK --interval=10s --timeout=3s \
   CMD /usr/bin/wget --no-verbose --tries=1 --spider http://localhost:5000/healthz
 
 ENTRYPOINT ["/app"]
